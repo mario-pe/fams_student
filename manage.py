@@ -1,12 +1,7 @@
-import os
-import sqlite3
-
-from flask import Flask
 from flask.cli import FlaskGroup
-from flask_sqlalchemy import SQLAlchemy
-
 from database import db
 from main import app
+
 cli = FlaskGroup(app)
 
 
@@ -17,11 +12,11 @@ def create_db():
     db.session.commit()
 
 
-def create_test_db(app):
-    if app.config["SQLALCHEMY_DATABASE_URI"] == "postgresql+psycopg2://postgres:postgres@localhost:5432/student_test":
-        db.drop_all()
-        db.create_all()
-        db.session.commit()
+# def create_test_db(app):
+#     if app.config["SQLALCHEMY_DATABASE_URI"] == "postgresql+psycopg2://postgres:postgres@localhost:5432/student_test":
+#         db.drop_all()
+#         db.create_all()
+#         db.session.commit()
 
 
 # @cli.command("seed_db")

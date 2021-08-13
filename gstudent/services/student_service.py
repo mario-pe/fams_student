@@ -7,7 +7,7 @@ class StudentService:
     def __init__(self):
         self.student_data_service = StudentRepository()
 
-    def get_students_list(self, params):
+    def get_students_list(self, params: dict) -> list:
         students = self.student_data_service.get_students_list(params)
         return students
 
@@ -15,13 +15,11 @@ class StudentService:
         student_entity = to_student_entity(student_model)
         return self.student_data_service.create_user(student_entity)
 
-    def get_student_details(self, id):
-        student = self.student_data_service.get_student_by_id(id)
-        return student
+    def get_student_details(self, id) -> Student:
+        return self.student_data_service.get_student_by_id(id)
 
-    def update_student(self, student):
-        student = self.student_data_service.update_student(student)
-        return student
+    def update_student(self, student) -> Student:
+        return self.student_data_service.update_student(student)
 
-    def delete_student(self, id):
+    def delete_student(self, id) -> None:
         self.student_data_service.delete_student(id)

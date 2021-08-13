@@ -2,10 +2,11 @@ from gstudent.database.entities.student_entity import StudentEntity
 from gstudent.mapper.student_mapper import to_student_model
 from gstudent.models.student import Student
 from database import db
+# from main import api
 
 
 class StudentRepository:
-    def get_students_list(self, params):
+    def get_students_list(self, params: dict) -> list:
         name = params["name"]
         surname = params["surname"]
         specialization = params["specialization"]
@@ -24,23 +25,21 @@ class StudentRepository:
         db.session.commit()
         return to_student_model(student)
 
-    def get_student_by_id(self, id: str) -> StudentEntity:
+    def get_student_by_id(self, id: str) -> Student:
         student_entity = StudentEntity.query.filter_by(id=id).one_or_none()
         if student_entity:
-            return student_entity
-        api.abort(404, f"Student {id} doesn't exist")
+            return to_student_model(student_entity)
 
-    def update_student(self, student):
+    def update_student(self, student: Student) -> Student:
         student_entity = StudentEntity.query.filter_by(id=student.id).one_or_none()
         if student_entity:
             student_entity.name = student.name
             student_entity.surname = student.surname
             student_entity.specialization = student.specialization
             db.session.commit()
-            return student
-        api.abort(404, f"Student {student.id} doesn't exist")
+            return to_student_model(student_entity)
 
-    def delete_student(self, id):
+    def delete_student(self, id: str) -> None:
         student = StudentEntity.query.filter_by(id=id).one_or_none()
         if student:
             db.session.delete(student)

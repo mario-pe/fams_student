@@ -4,7 +4,6 @@ from flask_restx._http import HTTPStatus
 from gstudent.models.student import Student
 from gstudent.namespace_models import ns, student_create_update
 from gstudent.namespace_models import student as student_model
-from gstudent.database.repositories.student_repository import StudentRepository
 from gstudent.services.student_service import StudentService
 
 parser = reqparse.RequestParser()
@@ -53,7 +52,10 @@ class StudentDetails(Resource):
     def get(self, id):
         student_service = StudentService()
         student = student_service.get_student_details(id)
-        return student, 200
+        if student:
+            return student, 200
+        else:
+            return HTTPStatus.NOT_FOUND.description, 404
 
 
     @ns.doc("update_student_by_id")
@@ -67,8 +69,11 @@ class StudentDetails(Resource):
             surname=ns.payload["surname"],
             specialization=ns.payload["specialization"],
         )
-        student = student_service.update_student(student)
-        return student
+        updated_student = student_service.update_student(student)
+        if updated_student:
+            return updated_student
+        else:
+            return HTTPStatus.NOT_FOUND.description, 404
 
     @ns.doc("delete_student_by_id")
     @ns.response(200, "Student deleted")

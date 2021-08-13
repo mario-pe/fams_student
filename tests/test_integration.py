@@ -18,18 +18,18 @@ def tests_should_return_status_code_200_and_list_of_students(client):
     assert re.status_code == 200
     assert len(re.json) == number_of_expected_students
 
-#
-# def test_should_return_students_filtered_by_name(client):
-#     number_of_expected_students = 1
-#     number_of_students = 5
-#     StudentFactory.create(name="name")
-#     StudentFactory.create(specialization="specialization")
-#     StudentFactory.create_batch(number_of_students)
-#
-#     re = client.get("/students/", query_string={"name": "name"})
-#
-#     assert re.status_code == 200
-#     assert len(re.json) == number_of_expected_students
+
+def test_should_return_students_filtered_by_name(client):
+    number_of_expected_students = 1
+    number_of_students = 5
+    StudentFactory.create(name="name")
+    StudentFactory.create(specialization="specialization")
+    StudentFactory.create_batch(number_of_students)
+
+    re = client.get("/students/", query_string={"name": "name"})
+
+    assert re.status_code == 200
+    assert len(re.json) == number_of_expected_students
 #
 #
 # def test_should_return_students_all_filtered_by_name_and_specialization(client):

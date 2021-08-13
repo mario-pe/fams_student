@@ -1,6 +1,6 @@
 from flask_restx import Namespace, fields
 
-ns = Namespace("students", description="students operations")
+ns = Namespace("student", description="students operations")
 
 student = ns.model(
     "Student",
